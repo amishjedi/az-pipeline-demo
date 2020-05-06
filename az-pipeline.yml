@@ -1,0 +1,20 @@
+pool: NewPool
+
+variables:
+- group: build-vars-common
+- group: build-vars-managed-id
+
+steps:
+- task: DownloadSecureFile@1
+  name: conjurCert
+  displayName: 'Download CA certificate'
+  inputs:
+    secureFile: 'conjur-dev.pem'
+
+- bash: |
+    cat $(conjurCert.secureFilePath) > $(CONJUR_CERT_FILE)
+    export DB_UNAME=$(./get_conjur_secret.sh $(CONJUR_AUTHN_LOGIN) $(db-username) )
+    export DB_PWD=$(./get_conjur_secret.sh $(CONJUR_AUTHN_LOGIN) $(db-password) )
+    echo "Secrets retrieved:"
+    echo "  DB_UNAME: $DB_UNAME" 
+    echo "  DB_PWD: $DB_PWD" 
