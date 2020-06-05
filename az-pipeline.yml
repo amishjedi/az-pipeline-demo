@@ -1,4 +1,4 @@
-pool: NewPool
+pool: default
 
 variables:
 - group: build-vars-common
