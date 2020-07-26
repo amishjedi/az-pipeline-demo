@@ -14,7 +14,6 @@ steps:
 - bash: |
     cat $(conjurCert.secureFilePath) > $(CONJUR_CERT_FILE)
     ls
-    ./get_conjur_secret.sh $(CONJUR_AUTHN_LOGIN) $(db-username)
     export DB_UNAME=$(./get_conjur_secret.sh $(CONJUR_AUTHN_LOGIN) $(db-username) )
     export DB_PWD=$(./get_conjur_secret.sh $(CONJUR_AUTHN_LOGIN) $(db-password) )
     echo "Secrets retrieved:"
